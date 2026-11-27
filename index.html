@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jackob Buczynski Barcelona</title>
+<meta name="description" content="Designer upcycling atelier in Gràcia, Barcelona. One-of-one handmade jackets from textiles with a past.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!--
+  PROTOTYPE HOME PAGE v2 — Jackob Buczynski Barcelona (TFM Group 4)
+  8 scroll views in 5 chapters: Design (2) → Story (2) → Workshop (2) → Impact (1) → Visit (1)
+
+  Sources for copy and figures:
+  - Product layers: website/assets/pictures (from the jackobbuczynski.com configurator, see manifest.csv);
+    the page loads the 750px copies in assets/pictures/_web
+  - Founder story, runways, Wtórpol, Mombasa show, eco figures, Visa award: jackobbuczynski.com and
+    /poznaj-mnie-blizej/ (read 24 Nov 2026)
+  - Boutique address, hours, 500-year-old space: context/company.md [RD1 PDF, from the boutique's Instagram]
+  - Founder portrait is hot-linked from jackobbuczynski.com; download it into assets before launch.
+  - (assumed) until confirmed by the brand owner: workshop format and booking, "handmade eye" wording,
+    team/corporate workshop wording on this page.
+  - Add ?v=0..7 to the URL to freeze one view (for screenshots).
+-->
+<style>
+:root{
+  --paper:#f3efe8; --ink:#0e0e0e; --magenta:#d6246e; --denim:#5b7fa6; --pink:#f3cfd9;
+  --muted:#6b6560; --line:rgba(14,14,14,.14);
+  --head:"Anton",Impact,"Arial Narrow",sans-serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gut:clamp(16px,3vw,40px);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* ---------- header ---------- */
+.top{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:18px var(--gut);color:var(--hdr,var(--ink));transition:color .5s}
+.logo{font-family:var(--head);font-size:20px;letter-spacing:.06em;text-decoration:none;line-height:1}
+.logo small{display:block;font-family:var(--body);font-size:10px;letter-spacing:.32em;font-weight:600;margin-top:4px;opacity:.7}
+.top nav{display:flex;gap:26px;font-size:13px;font-weight:500}
+.top nav a{text-decoration:none;opacity:.55;transition:opacity .3s}
+.top nav a.on,.top nav a:hover{opacity:1}
+.top .right{display:flex;align-items:center;gap:14px}
+.lang{display:flex;border:1px solid currentColor;border-radius:99px;overflow:hidden;font-size:11px;font-weight:700}
+.lang button{padding:6px 10px;opacity:.55}
+.lang button.on{opacity:1;background:currentColor}
+.lang button.on span{color:var(--hdrbg,var(--paper))}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:99px;background:var(--magenta);color:#fff;
+  font-size:13px;font-weight:600;text-decoration:none;transition:transform .3s,box-shadow .3s,background .3s;white-space:nowrap}
+.pill:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(214,36,110,.35)}
+.pill.ghost{background:transparent;color:inherit;border:1px solid currentColor}
+.pill.ink{background:var(--ink)}
+body[data-view="6"] .top .pill{background:var(--ink)}
+.progress{position:fixed;left:0;top:0;height:3px;background:var(--magenta);z-index:60;width:0}
+
+/* ---------- scroll track + sticky stage ---------- */
+#track{position:relative;height:880vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.bg{position:absolute;inset:0}
+.bg.paper{background:var(--paper)}
+.bg.dark{background:#0b0b0b;opacity:0}
+.bg.dark::after{content:"";position:absolute;inset:0;background:radial-gradient(55% 55% at 50% 48%,rgba(255,255,255,.09),transparent 70%)}
+.bg.studio{background:#e9e2d6;opacity:0}
+.bg.studio::after{content:"";position:absolute;inset:0;opacity:.35;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:44px 44px}
+.bg.mag{background:var(--magenta);opacity:0}
+.bg.pink{background:var(--pink);opacity:0}
+.bg.pink::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;
+  background:linear-gradient(180deg,transparent,rgba(214,36,110,.10));}
+
+.panel{position:absolute;inset:0;opacity:0;pointer-events:none;will-change:opacity,transform}
+.panel.live{pointer-events:auto}
+.kicker{font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;margin-bottom:14px}
+.kicker b{color:var(--magenta);font-weight:700}
+.h{font-family:var(--head);font-weight:400;text-transform:uppercase;line-height:.92}
+.lead{font-size:16px;line-height:1.6;max-width:430px}
+
+/* ---------- the jacket ---------- */
+.jacket{position:absolute;left:50%;top:50%;z-index:20;height:min(74vh,95vw*1.08);aspect-ratio:1500/1620;will-change:transform;transform:translate(-50%,-50%)}
+.jacket .layer,.jacket .in{position:absolute;inset:0}
+.jacket .layer{will-change:transform}
+.jacket .in{opacity:0}
+.jacket .l-eye{transform-origin:50% 38%}
+.jacket img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-drag:none}
+/* crossfade: the new layer fades in on top; the old one stays opaque underneath until covered */
+.jacket .stack img{opacity:0;z-index:1;transition:opacity 0s .9s}
+.jacket .stack img.on{opacity:1;z-index:2;transition:opacity .9s ease}
+.jacket .shadow{position:absolute;left:12%;right:12%;bottom:24%;height:8%;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(0,0,0,.28),transparent);filter:blur(6px);z-index:-1}
+
+.tag{position:absolute;z-index:25;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  display:flex;align-items:center;gap:8px;opacity:0;pointer-events:none;white-space:nowrap}
+.tag i{width:28px;height:1px;background:currentColor;display:block}
+.tag b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--ink);color:#fff;font-size:10px;letter-spacing:0}
+
+/* ===== 01 · THE PIECE ===== */
+.v0 .giant{position:absolute;inset:0;display:grid;place-items:center;z-index:1;pointer-events:none}
+.v0 .giant div{font-family:var(--head);text-transform:uppercase;line-height:.82;text-align:center;font-size:clamp(90px,21vw,330px)}
+.v0 .giant .o{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.v0 .eyebrow{position:absolute;top:96px;left:var(--gut);font-size:12px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;z-index:30}
+.v0 .copy{position:absolute;left:var(--gut);bottom:clamp(24px,6vh,56px);max-width:340px;z-index:30}
+.v0 .copy h1{font-family:var(--head);font-weight:400;font-size:clamp(28px,2.6vw,40px);line-height:1;text-transform:uppercase}
+.scrollhint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);font-size:10px;letter-spacing:.3em;font-weight:700;text-transform:uppercase;z-index:30;opacity:.6}
+.scrollhint::after{content:"";display:block;width:1px;height:34px;background:currentColor;margin:8px auto 0;animation:hint 1.8s infinite}
+@keyframes hint{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ===== 02 · THE DETAIL (zoom on the eye) ===== */
+.v1 .left{position:absolute;left:var(--gut);top:44%;transform:translateY(-50%);width:min(34vw,460px);z-index:30}
+.v1 .h{font-size:clamp(44px,5.4vw,92px);margin-bottom:18px}
+.v1 .lead{color:#3a3530}
+.v1 .name{position:absolute;left:var(--gut);bottom:clamp(24px,6vh,56px);z-index:30;width:min(26vw,360px)}
+.v1 .name .val{line-height:1}
+.v1 .name .k{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.v1 .name .val{font-family:var(--head);font-size:clamp(30px,3vw,46px);text-transform:uppercase;margin:6px 0 12px}
+.dots{display:flex;gap:7px}
+.dots span{width:16px;height:16px;border-radius:50%;border:2px solid var(--paper);box-shadow:0 0 0 1px var(--line);transition:transform .4s}
+.dots span.on{transform:scale(1.35);box-shadow:0 0 0 1.5px var(--ink)}
+.v1 .count{margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+.v1 .count .h{font-size:clamp(40px,4vw,64px);margin:0 0 4px}
+.v1 .count span{font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+/* ===== 03 + 04 · STORY (monochrome; only the jacket keeps its colour) ===== */
+.v2,.v3{color:#fff}
+.v2 .portrait{position:absolute;left:var(--gut);top:96px;bottom:40px;width:min(32vw,460px);border-radius:4px;overflow:hidden;background:#1b1b1b;z-index:30}
+.v2 .portrait img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:grayscale(1) contrast(1.15) brightness(.9)}
+.v2 .portrait figcaption{position:absolute;left:14px;bottom:12px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
+.v2 .portrait .ph{position:absolute;inset:0;display:none;place-items:center;color:#777;font-size:12px}
+.v2 .machine{position:absolute;right:-6px;bottom:-4px;width:44%;filter:drop-shadow(0 6px 20px rgba(0,0,0,.6))}
+.v2 .right{position:absolute;right:calc(var(--gut) + 30px);top:50%;transform:translateY(-50%);width:min(30vw,420px);z-index:30}
+.v2 .kicker{color:#aaa}
+.v2 .h{font-size:clamp(36px,3.6vw,60px);margin-bottom:18px}
+.v2 p{font-size:15px;line-height:1.65;color:#cfcfcf;margin-bottom:22px}
+.v2 blockquote{font-size:18px;line-height:1.45;border-left:2px solid var(--magenta);padding-left:14px;color:#fff}
+.v2 blockquote cite{display:block;font-style:normal;font-size:11px;color:#999;margin-top:8px;letter-spacing:.06em}
+
+.v3 .left{position:absolute;left:var(--gut);top:50%;transform:translateY(-50%);width:min(30vw,420px);z-index:30}
+.v3 .kicker{color:#aaa}
+.v3 .h{font-size:clamp(36px,3.6vw,60px);margin-bottom:22px}
+.tl{list-style:none;border-left:1px solid rgba(255,255,255,.25);margin-left:4px}
+.tl li{position:relative;padding:0 0 16px 20px;font-size:14px;line-height:1.45;color:#cfcfcf}
+.tl li::before{content:"";position:absolute;left:-5px;top:5px;width:9px;height:9px;border-radius:50%;background:#0b0b0b;border:1.5px solid #fff}
+.tl li.hl::before{background:var(--magenta);border-color:var(--magenta)}
+.tl b{display:block;color:#fff;font-family:var(--head);font-weight:400;font-size:18px;letter-spacing:.03em;text-transform:uppercase;margin-bottom:2px}
+.v3 .right{position:absolute;right:calc(var(--gut) + 30px);top:96px;bottom:80px;width:min(27vw,370px);display:flex;flex-direction:column;gap:12px;z-index:30}
+.v3 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;min-height:0}
+.mini{position:relative;border:1px solid rgba(255,255,255,.14);border-radius:4px;overflow:hidden;background:#151515;filter:grayscale(1);transition:filter .5s,border-color .5s,transform .5s}
+.mini:hover{filter:none;border-color:var(--magenta);transform:translateY(-3px)}
+.mini .art{position:absolute;inset:8% 8% 18%}
+.mini .art img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.mini span{position:absolute;left:10px;bottom:8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#ddd}
+.v3 .note{font-size:11px;color:#8a8a8a}
+.v3 .stamp{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);font-family:var(--head);font-size:clamp(14px,1.4vw,18px);letter-spacing:.2em;opacity:.9;z-index:30;white-space:nowrap}
+.v3 .stamp em{font-style:normal;color:var(--magenta)}
+
+/* ===== 05 + 06 · WORKSHOP ===== */
+.v4 .right,.v5 .right{position:absolute;right:calc(var(--gut) + 30px);top:50%;transform:translateY(-50%);width:min(38vw,500px);z-index:30}
+.v4 .kicker,.v5 .kicker{color:var(--magenta)}
+.v4 .h{font-size:clamp(46px,5.4vw,90px);margin-bottom:20px}
+.v4 .lead{color:#3a3530;margin-bottom:24px}
+.layers3{list-style:none;display:grid;gap:10px}
+.layers3 li{display:grid;grid-template-columns:30px 1fr;gap:2px 10px;font-size:14px;line-height:1.45;color:#3a3530}
+.layers3 .n{grid-row:span 2;display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;font-weight:700}
+.layers3 b{color:var(--ink)}
+.v5 .h{font-size:clamp(40px,4.4vw,72px);margin-bottom:18px}
+.steps{list-style:none;border-top:1px solid var(--line)}
+.steps li{display:grid;grid-template-columns:38px 1fr;gap:6px 10px;padding:14px 0;border-bottom:1px solid var(--line)}
+.steps .n{font-family:var(--head);font-size:22px;color:var(--magenta);grid-row:span 2}
+.steps .t{font-weight:700;font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px 6px 6px;border:1px solid var(--line);border-radius:99px;font-size:12px;font-weight:500;background:rgba(255,255,255,.55);transition:border-color .25s,background .25s}
+.chip:hover{border-color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip i{width:16px;height:16px;border-radius:50%;display:block;border:1px solid rgba(0,0,0,.15)}
+.v5 .cta{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
+.v5 .badge{position:absolute;left:var(--gut);bottom:clamp(24px,6vh,56px);z-index:30;font-size:13px;max-width:300px;line-height:1.5;color:#3a3530}
+.v5 .badge b{display:block;font-family:var(--head);font-weight:400;font-size:24px;color:var(--ink);text-transform:uppercase;margin-bottom:4px}
+
+/* ===== 07 · IMPACT ===== */
+.v6{color:#fff}
+.v6 .left{position:absolute;left:var(--gut);top:50%;transform:translateY(-50%);width:min(50vw,680px);z-index:30}
+.v6 .kicker{opacity:.9}
+.v6 .h{font-size:clamp(44px,5.4vw,92px);margin-bottom:28px}
+.stats{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.35)}
+.stat{padding:18px 18px 18px 0;border-bottom:1px solid rgba(255,255,255,.35)}
+.stat:nth-child(odd){border-right:1px solid rgba(255,255,255,.35)}
+.stat:nth-child(even){padding-left:18px}
+.stat .num{font-family:var(--head);font-size:clamp(36px,4vw,64px);line-height:1}
+.stat .lbl{font-size:13px;line-height:1.4;margin-top:6px;opacity:.92}
+.v6 .src{font-size:10px;opacity:.75;margin-top:10px}
+
+/* ===== 08 · VISIT ===== */
+.v7 .left{position:absolute;left:var(--gut);top:50%;transform:translateY(-50%);width:min(44vw,600px);z-index:30}
+.v7 .kicker{color:var(--magenta)}
+.v7 .h{font-size:clamp(48px,6vw,104px);margin-bottom:22px}
+.v7 .lead{color:#3a3530;margin-bottom:24px}
+.card{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:24px}
+.card div{padding:14px 0}
+.card div+div{padding-left:18px;border-left:1px solid var(--line)}
+.card .k{font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--muted);margin-bottom:6px}
+.card b{font-family:var(--head);font-weight:400;font-size:22px;text-transform:uppercase;line-height:1.1}
+.v7 .cta{display:flex;gap:10px;flex-wrap:wrap}
+.v7 .sign{position:absolute;right:calc(var(--gut) + 30px);bottom:clamp(24px,6vh,56px);z-index:30;text-align:right;font-family:var(--head);text-transform:uppercase;font-size:clamp(20px,2vw,30px);line-height:1}
+.v7 .sign em{font-style:normal;color:var(--magenta)}
+
+/* ---------- progress rail ---------- */
+.rail{position:fixed;right:clamp(10px,1.4vw,22px);top:50%;transform:translateY(-50%);z-index:45;display:flex;flex-direction:column;gap:12px;color:var(--hdr,var(--ink))}
+.rail button{display:flex;align-items:center;gap:8px;justify-content:flex-end;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.rail button span{opacity:0;transition:opacity .3s;white-space:nowrap}
+.rail:hover button span{opacity:.8}
+.rail button i{width:8px;height:8px;border-radius:50%;border:1.5px solid currentColor;transition:background .3s,transform .3s}
+.rail button.on i{background:currentColor;transform:scale(1.3)}
+.rail button.gap{margin-top:8px}
+
+/* ---------- footer ---------- */
+footer{background:var(--ink);color:#fff;padding:56px var(--gut) 32px}
+footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px;align-items:flex-end}
+footer .big{font-family:var(--head);font-size:clamp(40px,7vw,110px);line-height:.9;text-transform:uppercase}
+footer .big em{font-style:normal;color:var(--magenta)}
+footer .cols{display:flex;gap:48px;font-size:13px;line-height:1.8;opacity:.85}
+footer .fine{margin-top:40px;font-size:11px;opacity:.55;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+/* ---------- short laptop screens ---------- */
+@media (min-width:901px) and (max-height:760px){
+  .v4 .h,.v1 .h,.v6 .h,.v7 .h{font-size:clamp(36px,8vh,64px)}
+  .v5 .h{font-size:clamp(32px,6.5vh,52px);margin-bottom:10px}
+  .steps li{padding:7px 0}
+  .v5 .cta{margin-top:12px}
+  .lead{font-size:14px}
+  .stat{padding-top:10px;padding-bottom:10px}
+  .tl li{padding-bottom:10px;font-size:13px}
+}
+
+/* ---------- phones ---------- */
+@media (max-width:900px){
+  .top nav,.top .right>.pill,.rail,.tag{display:none}
+  .jacket{height:min(44vh,78vw*1.08)}
+  .panel .left,.panel .right{top:auto!important;bottom:22px;transform:none!important;left:16px;right:16px;width:auto!important}
+  .h{font-size:34px!important;margin-bottom:10px!important}
+  .lead{font-size:14px}
+  .v0 .giant{align-items:start;padding-top:18vh}
+  .v0 .giant div{font-size:26vw}
+  .v0 .copy{right:16px;max-width:none}
+  .v1 .name,.v1 .count{display:none}
+  .v2 .portrait{top:84px;bottom:auto;height:34vh;width:44vw}
+  .v2 .machine{display:none}
+  .v2 p{display:none}
+  .v3 .right,.v3 .stamp{display:none}
+  .tl li{padding-bottom:8px;font-size:12px}
+  .v4 .lead,.v5 .badge{display:none}
+  .steps li{padding:8px 0}
+  .steps li:last-child{display:none}
+  .stat .num{font-size:28px}
+  .stat .lbl{font-size:11px}
+  .card b{font-size:16px}
+  .v7 .lead,.v7 .sign{display:none}
+}
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<header class="top">
+  <a class="logo" href="#" data-go="0">JACKOB BUCZYNSKI<small>ATELIER · GRÀCIA</small></a>
+  <nav>
+    <a href="#" data-go="0" data-sec="0,1" data-i18n="nav0">The piece</a>
+    <a href="#" data-go="2" data-sec="2,3" data-i18n="nav1">Our story</a>
+    <a href="#" data-go="4" data-sec="4,5" data-i18n="nav2">Workshop</a>
+    <a href="#" data-go="6" data-sec="6" data-i18n="nav3">Impact</a>
+    <a href="#" data-go="7" data-sec="7" data-i18n="nav4">Visit</a>
+  </nav>
+  <div class="right">
+    <div class="lang" role="group" aria-label="Language">
+      <button data-lang="en" class="on"><span>EN</span></button>
+      <button data-lang="es"><span>ES</span></button>
+    </div>
+    <a class="pill" href="#" data-go="7" data-i18n="visit">Visit the atelier</a>
+  </div>
+</header>
+
+<div class="rail" id="rail"></div>
+
+<main id="track">
+  <div class="stage">
+    <div class="bg paper"></div>
+    <div class="bg studio" id="bgStudio"></div>
+    <div class="bg dark" id="bgDark"></div>
+    <div class="bg mag" id="bgMag"></div>
+    <div class="bg pink" id="bgPink"></div>
+
+    <!-- ===== 01 · THE PIECE ===== -->
+    <section class="panel v0">
+      <div class="giant"><div>One<br><span class="o">of one</span></div></div>
+      <div class="eyebrow" data-i18n="eyebrow">Designer upcycling atelier · Gràcia, Barcelona</div>
+      <div class="copy"><h1 data-i18n="h0">The only one in the world. Yours.</h1></div>
+      <div class="scrollhint" data-i18n="scroll">Scroll</div>
+    </section>
+
+    <!-- ===== 02 · THE DETAIL ===== -->
+    <section class="panel v1">
+      <div class="left">
+        <div class="kicker"><b>01</b> · <span data-i18n="k1">The design</span></div>
+        <div class="h" data-i18n="h1">Look closer.</div>
+        <p class="lead" data-i18n="p1">Every jacket starts as denim that already had a life. The eye and the fringe are made by hand in our atelier, so no two pieces ever turn out the same.</p>
+        <div class="count">
+          <div class="h">3 × 10 × 2</div>
+          <span data-i18n="countL">washes × eyes × fringe = 60 ways to be one of one</span>
+        </div>
+      </div>
+      <div class="name">
+        <div class="k" data-i18n="nameK">This piece</div>
+        <div class="val" id="specVal">Denim · Black eye</div>
+        <div class="dots" id="dots"></div>
+      </div>
+    </section>
+
+    <!-- ===== 03 · STORY: ORIGIN ===== -->
+    <section class="panel v2">
+      <figure class="portrait">
+        <img src="https://jackobbuczynski.com/wp-content/uploads/2025/10/7bd37b90-a3b5-4587-8e92-fb4242b76ff6.webp" alt="Jackob Buczynski, founder" loading="lazy"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+        <div class="ph">Founder portrait</div>
+        <figcaption>Jackob Buczynski</figcaption>
+        <svg class="machine" viewBox="0 0 220 150" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 132h192v10H14z" fill="#0b0b0b"/>
+          <path d="M30 132V62c0-22 14-34 36-34h96c18 0 28 10 28 26v14h-14"/>
+          <path d="M174 68v18h-10l-4 10h-8V86"/><path d="M156 96v18M151 114h10"/>
+          <path d="M30 70h92c10 0 14 6 14 14v48"/><path d="M66 28V16h22v12"/>
+          <circle cx="196" cy="50" r="14"/><circle cx="196" cy="50" r="4"/>
+          <path d="M48 46h18M48 54h10"/><path d="M120 132c0-8 8-12 18-12h40" stroke-dasharray="3 5"/>
+        </svg>
+      </figure>
+      <div class="right">
+        <div class="kicker"><b>02</b> · <span data-i18n="k2">Our story</span></div>
+        <div class="h" data-i18n="h2">It started with my grandmother's clothes.</div>
+        <p data-i18n="p2">The sound of an old sewing machine, a mother who loved second-hand finds, a father who was a sculptor. Jackob reworked his grandmother's wardrobe into his first fringe jacket, and people kept asking where it came from.</p>
+        <blockquote><span data-i18n="q">“I don't need to buy something new to be a new version of myself.”</span><cite>Jackob Buczynski</cite></blockquote>
+      </div>
+    </section>
+
+    <!-- ===== 04 · STORY: FROM WARSAW TO GRÀCIA ===== -->
+    <section class="panel v3">
+      <div class="left">
+        <div class="kicker"><b>02</b> · <span data-i18n="k3">From Warsaw to Gràcia</span></div>
+        <div class="h" data-i18n="h3">No shortcuts.</div>
+        <ul class="tl">
+          <li><b>2017</b><span data-i18n="tl1">The brand is born in Warsaw. A former competitive swimmer trains upcycling like a sport.</span></li>
+          <li><b>Wtórpol</b><span data-i18n="tl2">Partnership with Poland's largest textile sorter, and a runway show inside its sorting plant.</span></li>
+          <li><b data-i18n="tl3h">Runways</b><span data-i18n="tl3">New York, Berlin and Budapest fashion weeks, and a show in Mombasa with local women.</span></li>
+          <li><b>2026</b><span data-i18n="tl4">Laureate of Visa Young Creators: Recycle the Runway (Global Fashion Agenda).</span></li>
+          <li class="hl"><b>2026 · Gràcia</b><span data-i18n="tl5">The atelier opens in Barcelona, Carrer de Sant Joaquim 3.</span></li>
+        </ul>
+      </div>
+      <div class="right">
+        <div class="kicker" data-i18n="k3b">Other one-of-ones</div>
+        <div class="grid" id="miniGrid"></div>
+        <div class="note" data-i18n="note3">Hover to bring them to colour.</div>
+      </div>
+      <div class="stamp" data-i18n-html="stamp">WE DON'T THROW AWAY. <em>WE TRANSFORM.</em></div>
+    </section>
+
+    <!-- ===== 05 · WORKSHOP: TAKE IT APART ===== -->
+    <section class="panel v4">
+      <div class="right">
+        <div class="kicker">03 · <span data-i18n="k4">The workshop</span></div>
+        <div class="h" data-i18n="h4">Take it apart.</div>
+        <p class="lead" data-i18n="p4">Every piece is three layers of transformation. In the Gràcia atelier you see each one up close, then put them together yourself.</p>
+        <ol class="layers3">
+          <li><span class="n">1</span><b data-i18n="l1">Reworked denim</b><span data-i18n="l1p">A jacket that already had a life becomes the base.</span></li>
+          <li><span class="n">2</span><b data-i18n="l2">The handmade eye</b><span data-i18n="l2p">Built from strips of recovered fabric, in the colour you choose.</span></li>
+          <li><span class="n">3</span><b data-i18n="l3">The fringe</b><span data-i18n="l3p">The signature of the very first jacket, cut from recovered textiles.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== 06 · WORKSHOP: BUILD YOURS ===== -->
+    <section class="panel v5">
+      <div class="right">
+        <div class="kicker">03 · <span data-i18n="k5">The workshop</span></div>
+        <div class="h" data-i18n="h5">Now build yours.</div>
+        <ol class="steps">
+          <li><span class="n">1</span><span class="t" data-i18n="s1">Choose your denim</span><div class="chips" id="chipsJacket"></div></li>
+          <li><span class="n">2</span><span class="t" data-i18n="s2">Pick the eye</span><div class="chips" id="chipsEye"></div></li>
+          <li><span class="n">3</span><span class="t" data-i18n="s3">Add the fringe</span><div class="chips" id="chipsFringe"></div></li>
+          <li><span class="n">4</span><span class="t" data-i18n="s4">Sew it at the atelier</span><span style="font-size:13px;color:#3a3530">Carrer de Sant Joaquim 3, Gràcia</span></li>
+        </ol>
+        <div class="cta">
+          <a class="pill" href="#" data-i18n="cta5">Book a workshop</a>
+          <a class="pill ghost" href="#" data-i18n="cta5b">Have it made for me</a>
+        </div>
+      </div>
+      <div class="badge"><b data-i18n="b5">Teams, too</b><span data-i18n="b5p">Private and corporate upcycling workshops for groups, at the atelier or on site.</span></div>
+    </section>
+
+    <!-- ===== 07 · IMPACT ===== -->
+    <section class="panel v6">
+      <div class="left">
+        <div class="kicker">04 · <span data-i18n="k6">What we've done for the planet</span></div>
+        <div class="h" data-i18n="h6">Textiles with a past. Fashion with a future.</div>
+        <div class="stats">
+          <div class="stat"><div class="num"><span data-count="55">0</span>M L</div><div class="lbl" data-i18n="st1">of water saved, about 22 Olympic pools</div></div>
+          <div class="stat"><div class="num"><span data-count="147">0</span> T</div><div class="lbl" data-i18n="st2">less CO₂, the yearly emissions of about 32 cars</div></div>
+          <div class="stat"><div class="num"><span data-count="75">0</span>%</div><div class="lbl" data-i18n="st3">saving on water, by the brand's own calculation</div></div>
+          <div class="stat"><div class="num"><span data-count="80">0</span>%</div><div class="lbl" data-i18n="st4">saving on CO₂, by the brand's own calculation</div></div>
+        </div>
+        <div class="src" data-i18n="src">Figures since 2017, as published by the brand on jackobbuczynski.com.</div>
+      </div>
+    </section>
+
+    <!-- ===== 08 · VISIT ===== -->
+    <section class="panel v7">
+      <div class="left">
+        <div class="kicker">05 · <span data-i18n="k7">Visit us</span></div>
+        <div class="h" data-i18n="h7">Come and see it in Gràcia.</div>
+        <p class="lead" data-i18n="p7">A 500-year-old space with a pink floor and a patchwork chandelier. Try the pieces on, meet the team, and leave with something nobody else owns.</p>
+        <div class="card">
+          <div><div class="k" data-i18n="ck1">Address</div><b>Carrer de Sant Joaquim 3<br>08012 Barcelona</b></div>
+          <div><div class="k" data-i18n="ck2">Opening hours</div><b data-i18n-html="hours">Wed–Sun<br>15:00–20:00</b></div>
+        </div>
+        <div class="cta">
+          <a class="pill" href="https://www.google.com/maps/search/?api=1&query=Carrer+de+Sant+Joaquim+3+08012+Barcelona" target="_blank" rel="noopener" data-i18n="cta7">Get directions</a>
+          <a class="pill ghost" href="https://www.instagram.com/jackobbuczynskigarage/" target="_blank" rel="noopener">@jackobbuczynskigarage</a>
+        </div>
+      </div>
+      <div class="sign" data-i18n-html="sign">We don't throw away.<br><em>We transform.</em></div>
+    </section>
+
+    <div class="tag" id="tagEye"><b>2</b><i></i><span data-i18n="l2">The handmade eye</span></div>
+    <div class="tag" id="tagFringe"><b>3</b><i></i><span data-i18n="l3">The fringe</span></div>
+    <div class="tag" id="tagBase"><b>1</b><i></i><span data-i18n="l1">Reworked denim</span></div>
+
+    <!-- ===== THE JACKET (always centre stage) ===== -->
+    <div class="jacket" id="jacket" aria-label="Customised denim jacket">
+      <div class="shadow"></div>
+      <div class="layer" id="layerBase"><div class="in l-base stack"></div></div>
+      <div class="layer" id="layerFringe"><div class="in l-fringe stack"></div></div>
+      <div class="layer" id="layerEye"><div class="in l-eye stack"></div></div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="row">
+    <div class="big" data-i18n-html="foot">Wear something<br><em>nobody else owns.</em></div>
+    <div class="cols">
+      <div><b>Atelier</b><br>Carrer de Sant Joaquim 3<br>08012 Barcelona</div>
+      <div><b data-i18n="ck2">Opening hours</b><br><span data-i18n="fhv">Wed–Sun · 15:00–20:00</span><br><a href="https://www.instagram.com/jackobbuczynskigarage/" target="_blank" rel="noopener">@jackobbuczynskigarage</a></div>
+    </div>
+  </div>
+  <div class="fine"><span>© Jackob Buczynski · Designer upcycling atelier</span><span data-i18n="proto">Prototype home page v2 · TFM Group 4 · La Salle Barcelona</span></div>
+</footer>
+
+<script>
+(() => {
+  const N = 8;
+  const P = 'assets/pictures/_web/';
+  const JACKETS = [
+    {f:'01_jacket-colour/01_denim.webp', en:'Denim', es:'Denim', c:'#3c5f8d'},
+    {f:'01_jacket-colour/02_light-denim.webp', en:'Light denim', es:'Denim claro', c:'#8fb7dc'},
+    {f:'01_jacket-colour/03_dark-denim.webp', en:'Dark denim', es:'Denim oscuro', c:'#5d6160'},
+  ];
+  const EYES = [
+    {f:'01_black', en:'Black eye', es:'Ojo negro', c:'#1a1a1a'},
+    {f:'02_gold', en:'Gold eye', es:'Ojo dorado', c:'#c99a2e'},
+    {f:'03_silver-gold', en:'Silver-gold eye', es:'Ojo plata y oro', c:'#cbb98a'},
+    {f:'04_sea-green', en:'Sea-green eye', es:'Ojo verde mar', c:'#1f8a6b'},
+    {f:'05_full-colour', en:'Full-colour eye', es:'Ojo multicolor', c:'conic-gradient(#e85d1c,#e43f8a,#3a7bd5,#2ab27b,#e85d1c)'},
+    {f:'07_pastel', en:'Pastel eye', es:'Ojo pastel', c:'#c9b7d9'},
+    {f:'08_pink', en:'Pink eye', es:'Ojo rosa', c:'#e48aa6'},
+    {f:'09_pastel-purple', en:'Lilac eye', es:'Ojo lila', c:'#a596cf'},
+    {f:'10_silver-pastel', en:'Silver-pastel eye', es:'Ojo plata pastel', c:'#d7c9cf'},
+    {f:'11_silver', en:'Silver eye', es:'Ojo plateado', c:'#c4c4c4'},
+  ].map(e => ({...e, f:'03_eye-colour/'+e.f+'.webp'}));
+  const FRINGES = [
+    {f:null, en:'None', es:'Sin flecos'},
+    {f:'04_fringe-colour/01_black.webp', en:'Black fringe', es:'Flecos negros'},
+  ];
+  const VIEWS = [
+    {en:'The piece', es:'La pieza'}, {en:'The detail', es:'El detalle'},
+    {en:'Origin', es:'El origen'}, {en:'Journey', es:'El camino'},
+    {en:'Take it apart', es:'Desmóntala'}, {en:'Build yours', es:'Crea la tuya'},
+    {en:'Impact', es:'Impacto'}, {en:'Visit', es:'Visítanos'},
+  ];
+
+  const T = { en:{}, es:{
+    nav0:'La pieza', nav1:'Nuestra historia', nav2:'Taller', nav3:'Impacto', nav4:'Visítanos', visit:'Visita el atelier',
+    eyebrow:'Atelier de diseño y upcycling · Gràcia, Barcelona', h0:'La única en el mundo. La tuya.', scroll:'Desliza',
+    k1:'El diseño', h1:'Mira de cerca.',
+    p1:'Cada chaqueta empieza como un denim que ya tuvo una vida. El ojo y los flecos se hacen a mano en nuestro atelier, así que no hay dos piezas iguales.',
+    nameK:'Esta pieza', countL:'lavados × ojos × flecos = 60 maneras de ser única',
+    k2:'Nuestra historia', h2:'Empezó con la ropa de mi abuela.',
+    p2:'El sonido de una vieja máquina de coser, una madre a la que le encantaba la ropa de segunda mano, un padre escultor. Jackob transformó el armario de su abuela en su primera chaqueta con flecos, y la gente no dejaba de preguntar de dónde era.',
+    q:'«No necesito comprar algo nuevo para ser una versión nueva de mí.»',
+    k3:'De Varsovia a Gràcia', h3:'Sin atajos.',
+    tl1:'Nace la marca en Varsovia. Un exnadador de competición entrena el upcycling como un deporte.',
+    tl2:'Alianza con la mayor clasificadora textil de Polonia y un desfile dentro de su planta.',
+    tl3h:'Pasarelas', tl3:'Semanas de la moda de Nueva York, Berlín y Budapest, y un desfile en Mombasa con mujeres locales.',
+    tl4:'Premiado en Visa Young Creators: Recycle the Runway (Global Fashion Agenda).',
+    tl5:'Abre el atelier en Barcelona, Carrer de Sant Joaquim 3.',
+    k3b:'Otras piezas únicas', note3:'Pasa el cursor para darles color.', stamp:'NO TIRAMOS. <em>TRANSFORMAMOS.</em>',
+    k4:'El taller', h4:'Desmóntala.',
+    p4:'Cada pieza son tres capas de transformación. En el atelier de Gràcia las ves de cerca y luego las unes tú.',
+    l1:'Denim reconvertido', l1p:'Una chaqueta que ya tuvo una vida se convierte en la base.',
+    l2:'El ojo hecho a mano', l2p:'Hecho con tiras de tejido recuperado, en el color que elijas.',
+    l3:'Los flecos', l3p:'La firma de la primera chaqueta, cortados de textiles recuperados.',
+    k5:'El taller', h5:'Ahora crea la tuya.',
+    s1:'Elige tu denim', s2:'Elige el ojo', s3:'Añade los flecos', s4:'Cósela en el atelier',
+    cta5:'Reserva un taller', cta5b:'Que me la hagan',
+    b5:'También para equipos', b5p:'Talleres de upcycling privados y para empresas, en el atelier o en vuestro espacio.',
+    k6:'Lo que hemos hecho por el planeta', h6:'Tejidos con pasado. Moda con futuro.',
+    st1:'de agua ahorrada, unas 22 piscinas olímpicas', st2:'menos de CO₂, lo que emiten unos 32 coches en un año',
+    st3:'de ahorro de agua, según el cálculo de la marca', st4:'de ahorro de CO₂, según el cálculo de la marca',
+    src:'Cifras desde 2017, publicadas por la marca en jackobbuczynski.com.',
+    k7:'Visítanos', h7:'Ven a verla en Gràcia.',
+    p7:'Un espacio de 500 años con suelo rosa y una lámpara de patchwork. Pruébate las piezas, conoce al equipo y llévate algo que nadie más tiene.',
+    ck1:'Dirección', ck2:'Horario', hours:'Mié–Dom<br>15:00–20:00', cta7:'Cómo llegar',
+    sign:'No tiramos.<br><em>Transformamos.</em>',
+    foot:'Lleva algo<br><em>que nadie más tiene.</em>', fhv:'Mié–Dom · 15:00–20:00',
+    proto:'Prototipo de página de inicio v2 · TFM Grupo 4 · La Salle Barcelona'
+  }};
+  let lang='en';
+
+  const $=s=>document.querySelector(s);
+  const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const mk=src=>{const i=new Image(); i.src=P+src; i.alt=''; return i;};
+
+  /* ---------- jacket stacks ---------- */
+  const base=JACKETS.map(j=>$('#layerBase .in').appendChild(mk(j.f)));
+  const eyes=EYES.map(e=>$('#layerEye .in').appendChild(mk(e.f)));
+  const fr=FRINGES.map(f=>f.f?$('#layerFringe .in').appendChild(mk(f.f)):null);
+  const state={j:0,e:0,fr:0};
+  function render(){
+    base.forEach((im,i)=>im.classList.toggle('on',i===state.j));
+    eyes.forEach((im,i)=>im.classList.toggle('on',i===state.e));
+    fr.forEach((im,i)=>im&&im.classList.toggle('on',i===state.fr));
+    $('#specVal').textContent=JACKETS[state.j][lang]+' · '+EYES[state.e][lang];
+    document.querySelectorAll('#dots span').forEach((d,i)=>d.classList.toggle('on',i===state.e));
+    document.querySelectorAll('[data-pick]').forEach(b=>{const [k,v]=b.dataset.pick.split(':'); b.setAttribute('aria-pressed',String(state[k]===+v));});
+  }
+  EYES.forEach(e=>{const s=document.createElement('span'); s.style.background=e.c; $('#dots').appendChild(s);});
+
+  function chips(el,list,key){
+    list.forEach((it,i)=>{
+      const b=document.createElement('button'); b.className='chip'; b.dataset.pick=key+':'+i;
+      const sw=document.createElement('i'); sw.style.background=it.c||(it.f?'#111':'transparent');
+      b.append(sw,document.createElement('span'));
+      b.onclick=()=>{state[key]=i; userPicked=true; render();};
+      el.appendChild(b);
+    });
+  }
+  chips($('#chipsJacket'),JACKETS,'j');
+  chips($('#chipsEye'),EYES.slice(0,6),'e');
+  chips($('#chipsFringe'),FRINGES,'fr');
+
+  // "other one-of-ones" grid, composed from the same layers
+  [[1,6,0],[2,1,1],[0,3,0],[1,7,1],[2,9,0],[0,4,1]].forEach(([j,e,f])=>{
+    const card=document.createElement('div'); card.className='mini';
+    const art=document.createElement('div'); art.className='art';
+    art.append(mk(JACKETS[j].f)); if(f) art.append(mk(FRINGES[1].f)); art.append(mk(EYES[e].f));
+    const lab=document.createElement('span'); lab.dataset.combo=j+','+e;
+    card.append(art,lab); $('#miniGrid').appendChild(card);
+  });
+
+  // side rail: 8 dots, grouped by chapter
+  VIEWS.forEach((v,i)=>{
+    const b=document.createElement('button'); b.dataset.go=i; if([2,4,6,7].includes(i)) b.classList.add('gap');
+    b.innerHTML=`<span></span><i></i>`; $('#rail').appendChild(b);
+  });
+
+  /* ---------- i18n ---------- */
+  function setLang(l){
+    lang=l; document.documentElement.lang=l;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{ if(!el.dataset.en) el.dataset.en=el.textContent; el.textContent=T[l][el.dataset.i18n]??el.dataset.en; });
+    document.querySelectorAll('[data-i18n-html]').forEach(el=>{ if(!el.dataset.en) el.dataset.en=el.innerHTML; el.innerHTML=T[l][el.dataset.i18nHtml]??el.dataset.en; });
+    document.querySelectorAll('.chip').forEach(b=>{const [k,v]=b.dataset.pick.split(':'); b.querySelector('span').textContent={j:JACKETS,e:EYES,fr:FRINGES}[k][+v][l];});
+    document.querySelectorAll('[data-combo]').forEach(s=>{const [j,e]=s.dataset.combo.split(','); s.textContent=JACKETS[j][l]+' · '+EYES[e][l];});
+    document.querySelectorAll('#rail button').forEach((b,i)=>b.querySelector('span').textContent=String(i+1).padStart(2,'0')+' '+VIEWS[i][l]);
+    document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('on',b.dataset.lang===l));
+    render();
+  }
+  document.querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.lang));
+
+  /* ---------- scroll choreography ---------- */
+  const track=$('#track'), jacket=$('#jacket'), panels=[...document.querySelectorAll('.panel')];
+  const lBase=$('#layerBase'), lEye=$('#layerEye'), lFr=$('#layerFringe');
+  const bg={studio:$('#bgStudio'),dark:$('#bgDark'),mag:$('#bgMag'),pink:$('#bgPink')};
+  const tags={eye:$('#tagEye'),fr:$('#tagFringe'),base:$('#tagBase')};
+
+  // jacket pose per view: x/y in vw/vh, scale, rotation (deg)
+  const POSE_D=[
+    {x:0,   y:3,   s:.94, r:0},   // 01 the piece, centre
+    {x:20,  y:24,  s:1.9, r:-6},  // 02 zoom on the eye
+    {x:0,   y:2,   s:.6,  r:-3},  // 03 origin, between portrait and text
+    {x:0,   y:0,   s:.74, r:3},   // 04 journey, centre
+    {x:-20, y:2,   s:.9,  r:0},   // 05 exploded, left
+    {x:-20, y:2,   s:.9,  r:0},   // 06 assembled, left
+    {x:24,  y:0,   s:.78, r:5},   // 07 impact, right
+    {x:22,  y:-2,  s:.84, r:-4},  // 08 visit, right
+  ];
+  const POSE_M=[
+    {x:0,y:2,s:1,r:0},{x:0,y:4,s:1.7,r:-6},{x:18,y:-14,s:.6,r:-3},{x:0,y:-22,s:.7,r:3},
+    {x:0,y:-24,s:.72,r:0},{x:0,y:-31,s:.5,r:0},{x:0,y:-24,s:.66,r:5},{x:0,y:-22,s:.7,r:-4},
+  ];
+
+  function targetV(){
+    const r=track.getBoundingClientRect(), total=track.offsetHeight-innerHeight;
+    const p=clamp(-r.top/total)*(N-1);
+    $('#progress').style.width=(p/(N-1)*100)+'%';
+    const s=Math.min(N-2,Math.floor(p)), f=p-s;
+    return s+ease(clamp((f-.3)/.55));     // hold 30%, glide, hold 15%
+  }
+  const range=(v,a,b)=>clamp(1-Math.max(a-v,v-b,0)*1.4);   // 1 inside [a,b], fades outside
+
+  const qv=new URLSearchParams(location.search).get('v');
+  const FORCED=qv===null?null:clamp(+qv,0,N-1);
+  let vCur=FORCED??0, vTgt=0, countsDone=false, lastView=-1, userPicked=false;
+
+  // intro: denim rises, eye blooms, fringe drips (JS-driven so it never fights the scroll transforms)
+  const inBase=$('#layerBase .in'), inEye=$('#layerEye .in'), inFr=$('#layerFringe .in');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, t0=performance.now();
+  const backOut=k=>1+2.2*Math.pow(k-1,3)+1.2*Math.pow(k-1,2);
+  let introDone=false;
+  function intro(now){
+    if(introDone) return;
+    const t=(reduce||FORCED!==null)?99:(now-t0)/1000;
+    const kb=ease(clamp(t/1.2)), ke=clamp((t-.6)/1.0), kf=ease(clamp((t-1)/1.3));
+    inBase.style.opacity=kb; inBase.style.transform=`translateY(${(1-kb)*6}%) scale(${.96+.04*kb})`;
+    inEye.style.opacity=clamp(ke*2.5); inEye.style.transform=`scale(${.2+.8*backOut(ke)}) rotate(${-120*(1-ke)}deg)`;
+    inFr.style.opacity=kf>0?1:0; inFr.style.clipPath=`inset(0 0 ${(1-kf)*100}% 0)`;
+    if(t>2.4){introDone=true; inEye.style.transform=''; inFr.style.clipPath=''; inBase.style.transform='';}
+  }
+
+  // the piece keeps changing in the design chapter: one of one, every time
+  let cycle=0;
+  setInterval(()=>{
+    if(userPicked||vCur>1.6||document.hidden) return;
+    cycle++; state.e=(state.e+3)%EYES.length;
+    if(cycle%2===0) state.j=(state.j+1)%JACKETS.length;
+    if(cycle%3===0) state.fr=state.fr?0:1;
+    render();
+  },2200);
+
+  function frame(now){
+    intro(now??performance.now());
+    vTgt=FORCED??targetV();
+    if(!Number.isFinite(vTgt)) vTgt=0;
+    vCur+=(vTgt-vCur)*0.085;
+    if(!Number.isFinite(vCur)||Math.abs(vTgt-vCur)<1e-4) vCur=vTgt;
+    const v=clamp(vCur,0,N-1), mobile=innerWidth<=900, POSE=mobile?POSE_M:POSE_D;
+
+    const i=Math.min(N-2,Math.floor(v)), t=v-i, a=POSE[i], b=POSE[i+1];
+    const float=Math.sin(performance.now()/1400)*0.6;
+    jacket.style.transform=`translate(-50%,-50%) translate(${lerp(a.x,b.x,t)}vw,${lerp(a.y,b.y,t)+float}vh) scale(${lerp(a.s,b.s,t)}) rotate(${lerp(a.r,b.r,t)}deg)`;
+
+    // exploded layers on view 05, re-assembled on 06
+    const ex=clamp(1-Math.abs(v-4)*1.6);
+    lEye.style.transform=`translate(${ex*-10}%,${ex*-12}%) scale(${1+ex*.12}) rotate(${ex*-8}deg)`;
+    lFr.style.transform=`translateY(${ex*12}%)`;
+    lBase.style.transform=`translateX(${ex*3}%)`;
+    // the fringe is always shown in the workshop so the three layers read clearly
+    if(v>3.5&&v<4.5&&!userPicked&&state.fr!==1){state.fr=1; render();}
+
+    bg.dark.style.opacity=range(v,2,3);
+    bg.studio.style.opacity=range(v,4,5);
+    bg.mag.style.opacity=range(v,6,6);
+    bg.pink.style.opacity=range(v,7,7);
+
+    panels.forEach((pn,k)=>{
+      const d=v-k, o=clamp(1-Math.abs(d)*2.2);
+      pn.style.opacity=o; pn.style.transform=`translateY(${-d*60}px)`;
+      pn.classList.toggle('live',o>.6);
+    });
+
+    const darkish=range(v,2,3)>.5||range(v,6,6)>.5;
+    document.documentElement.style.setProperty('--hdr',darkish?'#fff':'#0e0e0e');
+    document.documentElement.style.setProperty('--hdrbg',darkish?'#0e0e0e':'#f3efe8');
+
+    if(!mobile){
+      const jr=jacket.getBoundingClientRect();
+      const place=(el,px,py)=>{el.style.left=(jr.left+jr.width*px)+'px'; el.style.top=(jr.top+jr.height*py)+'px'; el.style.opacity=ex;};
+      place(tags.eye,.86,.06); place(tags.fr,.9,.78); place(tags.base,.9,.32);
+    }
+
+    const view=Math.round(v);
+    if(view!==lastView){
+      lastView=view; document.body.dataset.view=view;
+      document.querySelectorAll('#rail [data-go]').forEach(el=>el.classList.toggle('on',+el.dataset.go===view));
+      document.querySelectorAll('nav [data-sec]').forEach(el=>el.classList.toggle('on',el.dataset.sec.split(',').map(Number).includes(view)));
+      if(view===6&&!countsDone){countsDone=true; runCounts();}
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function runCounts(){
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const end=+el.dataset.count, s=performance.now(), dur=1600;
+      const step=now=>{const k=ease(clamp((now-s)/dur)); el.textContent=Math.round(end*k); if(k<1) requestAnimationFrame(step);};
+      requestAnimationFrame(step);
+    });
+  }
+
+  document.addEventListener('click',e=>{
+    const el=e.target.closest('[data-go]'); if(!el) return;
+    e.preventDefault();
+    const k=+el.dataset.go, total=track.offsetHeight-innerHeight;
+    const p=k===0?0:(k-1)+.9;              // land after the glide into view k
+    scrollTo({top:track.offsetTop+total*(p/(N-1)),behavior:'smooth'});
+  });
+
+  setLang('en');
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
